@@ -1,4 +1,4 @@
-package sda._200523.TwoDirectionalList;
+package sda._200523.DoublyLinkedList;
 
 public class StringListElement {
     private String value;
