@@ -60,16 +60,19 @@ public class StringList {
         StringListElement element;
         element = first;
         if (element.getValue().equals(value)) {
-            if (first.getNextElement() != null)
+            if (first.getNextElement() != null){
                 first = first.getNextElement();
+                first.setPreviousElement(null);
+            }
             else {
                 first = null;
             }
             return true;
         }
-        while (element.getNextElement() != null) {
-            if (element.getNextElement().getValue().equals(value)) {
-                element.setNextElement(element.getNextElement().getNextElement());
+        while (element != null) {
+            if (element.getValue().equals(value)) {
+                element.getPreviousElement().setNextElement(element.getNextElement());
+                element.getNextElement().setPreviousElement(element.getPreviousElement());
                 return true;
             }
             element = element.getNextElement();
