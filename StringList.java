@@ -60,11 +60,10 @@ public class StringList {
         StringListElement element;
         element = first;
         if (element.getValue().equals(value)) {
-            if (first.getNextElement() != null){
+            if (first.getNextElement() != null) {
                 first = first.getNextElement();
                 first.setPreviousElement(null);
-            }
-            else {
+            } else {
                 first = null;
             }
             return true;
@@ -72,7 +71,11 @@ public class StringList {
         while (element != null) {
             if (element.getValue().equals(value)) {
                 element.getPreviousElement().setNextElement(element.getNextElement());
-                element.getNextElement().setPreviousElement(element.getPreviousElement());
+                if (element.getNextElement() != null)
+                    element.getNextElement().setPreviousElement(element.getPreviousElement());
+                else
+                    last = element.getPreviousElement();
+                size--;
                 return true;
             }
             element = element.getNextElement();
@@ -80,25 +83,32 @@ public class StringList {
         return false;
     }
 
-    public boolean addAt(String value, int index){
-        if(index > size())
-            return false;
-        if(index == size()){
+    public boolean addAt(String value, int index) {
+        if (index >= size()) {
             add(value);
             return true;
         }
         StringListElement element = new StringListElement(value);
-        if(index == 0){
+        if (index == 0) {
             element.setNextElement(first);
             first = element;
+            size++;
             return true;
         }
         StringListElement tmp = first;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i < index; i++) {
             tmp = tmp.getNextElement();
         }
-        element.setNextElement(tmp.getNextElement());
-        tmp.setNextElement(element);
+        element.setNextElement(tmp);
+        element.setPreviousElement(tmp.getPreviousElement());
+        tmp.getPreviousElement().setNextElement(element);
+        size++;
         return true;
+    }
+
+    public void print() {
+        for (int i = 0; i < size; i++) {
+            System.out.println(get(i));
+        }
     }
 }

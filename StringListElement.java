@@ -37,4 +37,9 @@ public class StringListElement {
     public void setNextElement(StringListElement nextElement) {
         this.nextElement = nextElement;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }
